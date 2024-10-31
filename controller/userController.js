@@ -5,9 +5,14 @@ const zod = require('../utils/typeCheck.js')
 
 
 
-const getUser = (req,res)=>{
+const getBalance = async(req,res)=>{
     try{
-        return res.json({message:"hello user"})
+        const id = req.user.id;
+        const user = await userModel.findById(id);
+        if(!user){
+            return res.status(400).json({message:"user not found"});
+        }
+        return res.status(200).json({balance:user.balance});
     }
     catch(error){
         return res.json({message:error.message});
@@ -67,4 +72,4 @@ const SignIn = async (req,res)=>{
     }
 }
 
-module.exports = {getUser,SignUp,SignIn}
+module.exports = {SignUp,SignIn,getBalance}
