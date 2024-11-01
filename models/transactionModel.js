@@ -14,9 +14,17 @@ const transactionSchema = mongoose.Schema({
     amount:{
         type:Number,
         required: true
+    },
+    time:{
+        type:String,
+        required: true
+    },
+    date:{
+        type:String,
+        required: true
     }
 })
 
-const TransModel = mongoose.Model("transactions",transactionSchema);
+const TransModel = mongoose.model("transactions",transactionSchema);
 
 module.exports = TransModel;

@@ -9,7 +9,7 @@ const getBalance = async(req,res)=>{
     try{
         const id = req.user.id;
         const user = await userModel.findById(id);
-        if(!user){
+        if(!user){ 
             return res.status(400).json({message:"user not found"});
         }
         return res.status(200).json({balance:user.balance});
