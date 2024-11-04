@@ -82,4 +82,31 @@ const getMe = async(req,res)=>{
     }
 }
 
-module.exports = {SignUp,SignIn,getBalance,getMe}
+
+const getAllUser =async(req,res)=>{
+    try{
+        const meid = req.user.id;
+        const users = await userModel.find({_id:{$ne:meid}});
+        return res.status(200).json({users:users});
+    }
+    catch(error){
+        return res.status(500).json({message:error.message});
+    }
+}
+
+const verifyPassword = async(req,res)=>{
+    try{
+        const {password,id} =  req.body;
+        if(!password || !id) return res.status(401).json({message:"data missing"})
+        const user =  await userModel.findById(id);
+        if(!user) return res.status(401).json({message:"user not found"});
+        const status = await bcrypt.compare(password, user.password);
+        console.log(status)
+        return res.status(200).json({message:status});
+    }
+    catch(error){
+        return res.status(500).json({message:error.message});
+    }
+}
+
+module.exports = {SignUp,SignIn,getBalance,getMe,getAllUser,verifyPassword}
