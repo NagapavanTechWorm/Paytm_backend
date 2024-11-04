@@ -31,11 +31,11 @@ const SignUp = async (req,res)=>{
         }
         const userExist = await userModel.findOne({email:email})
         if(userExist){
-            return res.json({message:`${email} already exist`});
+            return res.status(400).json({message:`${email} already exist`});
         }
         const hashPassword = await bcrypt.hash(password,10);
 
-        const bal = Math.floor(Math.random()*1000)
+        const bal = Math.floor(Math.random()*100000)
 
 
         const newUser = await userModel.create({username:username,email:email,password:hashPassword,balance:bal});
@@ -72,4 +72,14 @@ const SignIn = async (req,res)=>{
     }
 }
 
-module.exports = {SignUp,SignIn,getBalance}
+const getMe = async(req,res)=>{
+    try{
+        const user = await userModel.findById(req.user.id);
+        res.status(200).json({message:user});
+
+    }catch(error){
+        res.status(500).json({message:error.message});
+    }
+}
+
+module.exports = {SignUp,SignIn,getBalance,getMe}

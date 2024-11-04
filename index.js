@@ -4,12 +4,15 @@ const ConnectDB = require('./config/db.js')
 const userRoute = require('./Routes/userRoute.js')
 const transactionRoute = require('./Routes/transactionRoute.js')
 const Auth = require('./middleware/auth.js')
+const cors = require('cors')
+
 
 
 
 
 const app = express();
 dotenv.config();
+app.use(cors());
 ConnectDB();
 app.use(express.json());
 app.use(Auth)

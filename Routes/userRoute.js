@@ -4,7 +4,7 @@ const route = express.Router();
 const userController = require("../controller/userController")
 
 
-route.get('/balance',userController.getBalance)
+route.get('/balance',userController.getBalance).get("/me",userController.getMe)
 route.post('/signup',userController.SignUp)
 route.post("/signin",userController.SignIn)
 
